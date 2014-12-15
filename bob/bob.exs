@@ -1,12 +1,12 @@
 defmodule Teenager do
 
   def hey(input) do
-    str = String.strip (input)
     cond do
-      str == "" -> "Fine. Be that way!"
-      String.last(str) == "?" -> "Sure."
-      String.upcase(str) == str and String.match?(str, ~r/\p{L}/) -> "Whoa, chill out!"
-      true -> "Whatever."
+      String.strip(input) == ""         -> "Fine. Be that way!"
+      String.ends_with?(input, "?")     -> "Sure."
+      String.upcase(input) == input and String.match?(input, ~r/\p{L}/) 
+                                        -> "Whoa, chill out!"
+      true                              -> "Whatever."
     end
   end
 end
