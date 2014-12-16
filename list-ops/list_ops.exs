@@ -18,7 +18,7 @@ defmodule ListOps do
   @spec map(list, (any -> any)) :: list
   def map(l, f), do: _map(l, f, [])
 
-  defp _map([], _, acc), do: Enum.reverse(acc)
+  defp _map([], _, acc), do: reverse(acc)
   defp _map([head | tail], f, acc) do
     _map(tail, f, [f.(head) | acc])
   end
@@ -26,11 +26,11 @@ defmodule ListOps do
   @spec filter(list, (any -> as_boolean(term))) :: list
   def filter(l, f), do: _filter(l, f, [])
 
-  defp _filter([], _f, acc), do: Enum.reverse(acc)
+  defp _filter([], _f, acc), do: reverse(acc)
   defp _filter([head | tail], f, acc) do
-    cond do
-      f.(head)  -> _filter(tail, f, [head | acc])
-      true      -> _filter(tail, f, acc)
+    case f.(head) do
+      true    -> _filter(tail, f, [head | acc])
+      false   -> _filter(tail, f, acc)
     end
   end
 
@@ -44,29 +44,14 @@ defmodule ListOps do
   @spec append(list, list) :: list
   def append([], b), do: b
   def append(a, []), do: a
-  def append(a, [head | tail]) do
-    append(a ++ [head], tail)
+  def append([head | tail], b) do
+    [head|append(tail,b)]
   end
 
   @spec concat([[any]]) :: [any]
-  def concat(ll), do: _concat(ll, [])
+  def concat(ll), do: _concat(reverse(ll), [])
 
-  defp _concat([], acc), do: Enum.reverse(acc)
-
-  defp _concat([ [] | tail], acc) do
-    _concat(tail, acc)
-  end
-
-  defp _concat([ [ h | [] ] | tail], acc) do
-    _concat([ h | tail], acc)
-  end
-
-  defp _concat([ [ h | t ] | tail], acc) do
-    _concat([ h, t | tail], acc)
-  end
-
-  defp _concat([ head | tail ], acc) do
-    _concat(tail, [ head | acc ])
-  end
+  defp _concat([], acc), do: acc
+  defp _concat([h|t],acc), do: _concat(t,append(h,acc))
 
 end
