@@ -4,24 +4,15 @@ defmodule Anagram do
   """
   @spec match(String.t, [String.t]) :: [String.t]
   def match(base, candidates) do
-    check_anagram(base, candidates, [])
+    Enum.filter(candidates, &anagram_and_reject_same?(base, &1))
   end
 
-  def check_anagram(base, [], results) do 
-    Enum.uniq results
-    |> Enum.reverse
-  end
-  
-  def check_anagram(base, [candidate_head | candidate_tail], results) do
-    if separated_and_sorted(base) == separated_and_sorted(candidate_head) do
-      check_anagram(base, candidate_tail, [candidate_head | results])
-    else
-      check_anagram(base, candidate_tail, results)
-    end
+  defp anagram_and_reject_same?(base, word) do
+    String.downcase(base) != String.downcase(word) and sort(base) == sort(word)
   end
 
-  defp separated_and_sorted(word) do
-    Kernel.to_string(word)
+  defp sort(word) do
+    word
     |> String.downcase
     |> String.graphemes
     |> Enum.sort
