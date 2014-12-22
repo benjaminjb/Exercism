@@ -6,12 +6,14 @@ defmodule Words do
   """
   @spec count(String.t) :: map()
   def count(sentence) do
-    prep(sentence) 
+    sentence
+    |> prep 
     |> count_words
   end
 
   defp prep(sentence) do
-    String.replace(sentence, ~r/([^\w-]|_)+/u, " ")
+    sentence
+    |> String.replace(~r/([^\w-]|_)+/u, " ")
     |> String.downcase
     |> String.split
   end
