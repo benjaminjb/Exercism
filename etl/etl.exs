@@ -9,12 +9,12 @@ defmodule ETL do
   """
   @spec transform(Dict.t) :: map() 
   def transform(input) do
-
-    Enum.map(input, fn({key, value_list}) ->
-      Enum.map(value_list, fn(value) ->
-        Enum.into([String.downcase(value), key], %{})
+    Enum.reduce(input, %{}, fn({key, values}, acc) ->
+      map = Enum.reduce(values, %{}, fn(val, val_acc) ->
+        Map.put(val_acc, String.downcase(val), key)
       end)
+      Map.merge(acc, map)
     end)
-
   end
 end
+
