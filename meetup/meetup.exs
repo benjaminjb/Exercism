@@ -17,11 +17,8 @@ defmodule Meetup do
 
     weekday_number = weekday_number(weekday)
 
-    date_day_tuple = Enum.map(date_range, fn(date) ->
-      {date, :calendar.day_of_the_week(year, month, date)}
-    end)
-    {actual_date, weekday_number} = List.keyfind(date_day_tuple, weekday_number, 1)
-    {year, month, actual_date}
+    date_list = for date <- date_range, :calendar.day_of_the_week(year, month, date) == weekday_number, do: {year, month, date}
+    hd date_list
   end
 
     # assert Meetup.meetup(2013, 7, :wednesday, :first) == {2013, 7, 3}
