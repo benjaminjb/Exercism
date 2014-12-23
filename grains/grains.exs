@@ -12,6 +12,6 @@ defmodule Grains do
   """
   @spec total :: pos_integer
   def total do
-    Enum.reduce(0..63, 0, fn(x, acc) -> acc + :math.pow(2, x) end)
+    Enum.reduce(0..63, 0, &(&2 + :math.pow(2, &1)))
   end
 end
