@@ -17,8 +17,7 @@ defmodule Meetup do
 
     weekday_number = weekday_number(weekday)
 
-    date_list = for date <- date_range, :calendar.day_of_the_week(year, month, date) == weekday_number, do: {year, month, date}
-    hd date_list
+    hd (for date <- date_range, :calendar.day_of_the_week(year, month, date) == weekday_number, do: {year, month, date})
   end
 
     # assert Meetup.meetup(2013, 7, :wednesday, :first) == {2013, 7, 3}
@@ -33,15 +32,11 @@ defmodule Meetup do
     end
   end
 
-  defp weekday_number(weekday) do
-    case weekday do
-      :monday    -> 1
-      :tuesday   -> 2
-      :wednesday -> 3
-      :thursday  -> 4
-      :friday    -> 5
-      :saturday  -> 6
-      :sunday    -> 7
-    end
-  end
+  defp weekday_number(:monday),    do: 1
+  defp weekday_number(:tuesday),   do: 2
+  defp weekday_number(:wednesday), do: 3
+  defp weekday_number(:thursday),  do: 4
+  defp weekday_number(:friday),    do: 5
+  defp weekday_number(:saturday),  do: 6
+  defp weekday_number(:sunday),    do: 7
 end
