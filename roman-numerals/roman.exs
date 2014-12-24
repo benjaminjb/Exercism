@@ -4,8 +4,9 @@ defmodule Roman do
   """
   @spec numerals(pos_integer) :: String.t
   def numerals(number) do
-    Integer.to_char_list(number) 
-    |> Enum.map(&(&1 - 48))
+    number
+    |> Integer.to_string
+    |> String.graphemes
     |> transform
     |> Enum.join ""
   end
@@ -46,7 +47,7 @@ defmodule Roman do
       num == 5      ->
         "#{half}"
       num in 6..8   ->
-        "#{half}#{String.duplicate(char,num - 5)}"
+        "#{half}#{String.duplicate(char, num - 5)}"
       num == 9      ->
         "#{char}#{upper}"
       num == 0      ->
