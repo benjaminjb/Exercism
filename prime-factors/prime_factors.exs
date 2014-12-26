@@ -12,8 +12,7 @@ defmodule PrimeFactors do
     factor(number, 2, [])
   end
 
-  defp factor(1, _, _), do: []
-  defp factor(number, number, factor_list), do: Enum.reverse([number | factor_list])
+  defp factor(number, prime, factor_list) when number < prime, do: Enum.reverse(factor_list)
   
   defp factor(number, prime, factor_list) when rem(number, prime) == 0 do
     factor(div(number, prime), prime, [prime | factor_list])
