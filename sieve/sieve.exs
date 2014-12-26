@@ -5,13 +5,12 @@ defmodule Sieve do
   """
   @spec primes_to(non_neg_integer) :: [non_neg_integer]
   def primes_to(limit) do
-    Range.new(2, limit)
-    |> Enum.to_list
+    Enum.to_list(2..limit)
     |> build_sieve([])
   end
 
-  def build_sieve([], acc), do: acc
-  def build_sieve(range, acc) do
+  defp build_sieve([], acc), do: acc
+  defp build_sieve(range, acc) do
     acc = Enum.concat(acc, [hd range])
 
     range
